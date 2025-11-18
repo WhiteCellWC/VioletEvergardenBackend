@@ -1,11 +1,13 @@
 <?php
 
-namespace Modules\LetterComponent\Http\Request\Api\V1\WaxSealType;
+namespace Modules\User\Http\Request\Api\V1;
 
+use App\Enums\Gender;
 use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class StoreWaxSealTypeApiRequest extends FormRequest
+class UpdateUserApiRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,14 +25,15 @@ class StoreWaxSealTypeApiRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => 'nullable|exists:' . User::table . ',' . User::id,
             'name' => 'required',
-            'images' => 'required|array',
-            'images.*' => 'image',
-            'price' => 'required|numeric|min:0',
-            'is_premium' => 'nullable|boolean',
-            'discount' => 'nullable|min:0|max:100',
-            'status' => 'nullable|boolean'
+            'email' => 'required|unique:' . User::table . ',' . User::email,
+            'date_of_birth' => 'nullable|date',
+            'gender' => [
+                'nullable',
+                Rule::in(array_column(Gender::cases(), 'value')),
+            ],
+            'profile_image' => 'nullable|image',
+            'bio' => 'nullable'
         ];
     }
 }

@@ -5,6 +5,7 @@ namespace App\Models;
 
 class WaxSealType extends BaseModel
 {
+    // Table Column Start
     const table = 'wax_seal_types';
 
     const id = 'id';
@@ -12,8 +13,6 @@ class WaxSealType extends BaseModel
     const userId = 'user_id';
 
     const name = 'name';
-
-    const color = 'color';
 
     const isCustom = 'is_custom';
 
@@ -30,11 +29,15 @@ class WaxSealType extends BaseModel
     const createdBy = 'created_by';
 
     const updatedBy = 'updated_by';
+    // Table Column End
+
+    // Relation Start
+    public const images = 'images';
+    // Relation End
 
     protected $fillable = [
         'user_id',
         'name',
-        'color',
         'is_custom',
         'price',
         'is_premium',

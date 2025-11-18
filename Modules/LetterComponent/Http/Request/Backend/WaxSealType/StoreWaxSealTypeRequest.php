@@ -1,12 +1,11 @@
 <?php
 
-namespace Modules\LetterComponent\Http\Request\Api\V1\WaxSealType;
+namespace Modules\LetterComponent\Http\Request\Backend\WaxSealType;
 
-use App\Models\CoreImage;
 use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateWaxSealTypeApiRequest extends FormRequest
+class StoreWaxSealTypeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,10 +25,8 @@ class UpdateWaxSealTypeApiRequest extends FormRequest
         return [
             'user_id' => 'nullable|exists:' . User::table . ',' . User::id,
             'name' => 'required',
-            'images' => 'nullable|array',
+            'images' => 'required|array',
             'images.*' => 'image',
-            'delete_images' => 'nullable|array',
-            'delete_images.*' => 'exists:' . CoreImage::table . ',' . CoreImage::id,
             'is_custom' => 'nullable|boolean',
             'price' => 'required|numeric|min:0',
             'is_premium' => 'nullable|boolean',

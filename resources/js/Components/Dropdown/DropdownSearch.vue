@@ -23,7 +23,7 @@ const onInput = (value) => {
 
 <template>
     <div class="relative">
-        <TextInput :placeholder="placeholder" :modelValue="modelValue" @update:modelValue="onInput" />
+        <TextInput :extraClass="['w-full']" :placeholder="placeholder" :modelValue="modelValue" @update:modelValue="onInput" />
         <FontAwesomeIcon :icon="['fas', 'magnifying-glass']" class="absolute end-2 top-1/2 -translate-y-1/2" />
     </div>
 </template>

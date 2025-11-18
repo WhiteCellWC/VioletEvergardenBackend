@@ -20,7 +20,7 @@ onMounted(() => {
     if (route().current('states.*') || route().current('countries.*')) {
         openedDropdown.value = locationDropdown.value;
     }
-    if (route().current('fragrance-types.*') || route().current('envelope-types.*') || route().current('paper-types.*')) {
+    if (route().current('fragrance-types.*') || route().current('envelope-types.*') || route().current('paper-types.*') || route().current('wax-seal-types.*')) {
         openedDropdown.value = letterComponentDropdown.value;
     }
 })
@@ -75,6 +75,11 @@ onMounted(() => {
                         class="block p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700"
                         :class="{ 'bg-gray-200 dark:bg-gray-600 font-semibold': route().current('paper-types.*') }">
                     Paper Type
+                    </Link>
+                    <Link :href="route('wax-seal-types.index')"
+                        class="block p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700"
+                        :class="{ 'bg-gray-200 dark:bg-gray-600 font-semibold': route().current('wax-seal-types.*') }">
+                    Wax Seal Type
                     </Link>
                 </div>
             </div>

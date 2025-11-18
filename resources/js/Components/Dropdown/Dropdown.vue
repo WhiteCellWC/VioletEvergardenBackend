@@ -15,6 +15,7 @@ const props = defineProps({
     fetchRoute: { type: String, default: '' },
     options: { type: Array, default: () => [] },
     allowSearch: { type: Boolean, default: false },
+    allowClear: { type: Boolean, default: false },
     valueKey: { type: String, default: '' },
     labelKey: { type: String, default: '' },
     placeholder: { type: String, default: '' },
@@ -35,6 +36,7 @@ const searchTerm = ref('');
 const lastPage = ref(1);
 const nextPage = ref(1);
 const currentFetchToken = ref(0);
+const label = ref('');
 
 // Emits
 const emit = defineEmits(['update:modelValue', 'update:modelLabel']);
@@ -53,8 +55,22 @@ const showLoadMore = computed(() => allOptions.value.length > 0 && nextPage.valu
 const toggleDropdown = () => dropdownOpen.value = !dropdownOpen.value;
 
 const optionOnClick = (option) => {
-    emit('update:modelLabel', allOptions.value.find(o => o[props.valueKey] == option)?.[props.labelKey]);
+    const newLabel = allOptions.value.find(o => o[props.valueKey] == option)?.[props.labelKey];
+    if (props.modelLabel) {
+        emit('update:modelLabel', newLabel);
+    } else {
+        label.value = newLabel
+    }
     emit('update:modelValue', option);
+}
+
+const clear = () => {
+    emit('update:modelValue', '');
+    if (props.modelLabel) {
+        emit('update:modelLabel', '');
+    } else {
+        label.value = ''
+    }
 }
 
 const fetchData = async (reset = false) => {
@@ -129,7 +145,7 @@ onBeforeUnmount(() => {
         <!-- Dropdown toggle -->
         <div class="flex items-center justify-between cursor-pointer" @click="toggleDropdown">
             <slot name="select">
-                <DropdownSelect :placeholder="placeholder" :selectedValue="modelLabel || ''" />
+                <DropdownSelect :placeholder="placeholder" :selectedValue="modelLabel || label" />
             </slot>
             <svg class="w-4 h-4 ml-2 transition-transform duration-200"
                 :class="dropdownOpen ? 'rotate-180' : 'rotate-0'" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -142,7 +158,7 @@ onBeforeUnmount(() => {
             enter-from-class="opacity-0 scale-95" enter-to-class="opacity-100 scale-100"
             leave-active-class="transition transform duration-150 ease-in" leave-from-class="opacity-100 scale-100"
             leave-to-class="opacity-0 scale-95">
-            <div v-if="dropdownOpen" class="absolute top-full start-0 mt-2" :class="[...background, ...border]">
+            <div v-if="dropdownOpen" class="absolute top-full start-0 mt-2 z-10" :class="[...background, ...border]">
 
                 <!-- Search input -->
                 <DropdownSearch v-if="allowSearch" :modelValue="searchTerm" @update:modelValue="handleSearch"
@@ -159,5 +175,11 @@ onBeforeUnmount(() => {
                 </div>
             </div>
         </transition>
+
+        <!-- Clear button -->
+        <button v-if="allowClear && modelValue" type="button" @click="clear"
+            class="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 bg-red-600 text-white px-1 text-xs rounded-full cursor-pointer">
+            ✕
+        </button>
     </div>
 </template>

@@ -1,29 +1,29 @@
 <?php
 
-namespace Modules\Location\Http\Service;
+namespace Modules\User\Http\Service;
 
 use App\Http\Service\BaseService;
-use App\Models\Country;
+use App\Models\User;
 use Exception;
 use Illuminate\Support\Facades\Cache;
-use Modules\Location\Contract\CountryServiceInterface;
-use Modules\Location\DTO\CountryDto;
-use Modules\Location\Http\Cache\CountryCache;
+use Modules\User\Contract\UserServiceInterface;
+use Modules\User\DTO\UserDto;
+use Modules\User\Http\Cache\UserCache;
 
-class CountryService extends BaseService implements CountryServiceInterface
+class UserService extends BaseService implements UserServiceInterface
 {
     public function get(string $id, array|string|null $relation = null)
     {
         try {
-            $cacheKey = CountryCache::GET . '_' . $id . ':' . md5(json_encode([
+            $cacheKey = UserCache::GET . '_' . $id . ':' . md5(json_encode([
                 'relation' => $relation
             ]));
-            return Cache::tags([CountryCache::GET, CountryCache::GET . "_" . $id])->remember(
+            return Cache::tags([UserCache::GET, UserCache::GET . "_" . $id])->remember(
                 $cacheKey,
-                CountryCache::GET_EXPIRY,
-                fn() => Country::when(
+                UserCache::GET_EXPIRY,
+                fn() => User::when(
                     $id,
-                    fn($query, $id) => $query->where(Country::id, $id)
+                    fn($query, $id) => $query->where(User::id, $id)
                 )->when(
                     $relation,
                     fn($query, $relation) => $query->with($relation)
@@ -37,7 +37,7 @@ class CountryService extends BaseService implements CountryServiceInterface
     public function getAll(array|string|null $relation = null, ?array $condsIn = null, ?array $condsNotIn = null, ?array $queryOptions = null)
     {
         try {
-            $cacheKey = CountryCache::GET_ALL . ':' . md5(json_encode([
+            $cacheKey = UserCache::GET_ALL . ':' . md5(json_encode([
                 'relation' => $relation,
                 'condsIn'   => $condsIn,
                 'condsNotIn' => $condsNotIn,
@@ -45,11 +45,11 @@ class CountryService extends BaseService implements CountryServiceInterface
                 'routeType' => request()->is('api/*') ? 'api' : 'web'
             ]));
 
-            return Cache::tags([CountryCache::GET_ALL])->remember(
+            return Cache::tags([UserCache::GET_ALL])->remember(
                 $cacheKey,
-                CountryCache::GET_ALL_EXPIRY,
+                UserCache::GET_ALL_EXPIRY,
                 fn() => $this->fetch(
-                    Country::when(
+                    User::when(
                         $relation,
                         fn($query, $relation) => $query->with($relation)
                     )->when(
@@ -70,23 +70,23 @@ class CountryService extends BaseService implements CountryServiceInterface
         }
     }
 
-    public function create(CountryDto $countryDto)
+    public function create(UserDto $userDto)
     {
         try {
-            return Country::create($countryDto->toArray());
+            return User::create($userDto->toArray());
         } catch (Exception $e) {
             throw $e;
         }
     }
 
-    public function update(CountryDto $countryDto)
+    public function update(UserDto $userDto)
     {
         try {
-            $country = $this->get($countryDto->id);
-            $country->fill($countryDto->toArray());
-            $country->save();
+            $user = $this->get($userDto->id);
+            $user->fill($userDto->toArray());
+            $user->save();
 
-            return $country;
+            return $user;
         } catch (Exception $e) {
             throw $e;
         }
@@ -95,9 +95,9 @@ class CountryService extends BaseService implements CountryServiceInterface
     public function delete(string $id)
     {
         try {
-            $country = $this->get($id);
-            $name = $country->{Country::name};
-            $country->delete();
+            $user = $this->get($id);
+            $name = $user->{User::name};
+            $user->delete();
 
             return $name;
         } catch (Exception $e) {

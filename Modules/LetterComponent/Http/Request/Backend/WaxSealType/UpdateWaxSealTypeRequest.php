@@ -1,12 +1,12 @@
 <?php
 
-namespace Modules\LetterComponent\Http\Request\Api\V1\WaxSealType;
+namespace Modules\LetterComponent\Http\Request\Backend\WaxSealType;
 
 use App\Models\CoreImage;
 use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateWaxSealTypeApiRequest extends FormRequest
+class UpdateWaxSealTypeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

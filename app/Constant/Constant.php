@@ -10,10 +10,13 @@ class Constant
 
     public const ascending = 'asc';
 
+    // Send Type - start
     public const physical = 'physical';
 
     public const digital = 'digital';
+    // Send Type - end
 
+    // Status Related - start
     public const status = 'status';
 
     public const flag = 'flag';
@@ -25,4 +28,13 @@ class Constant
     public const error = 'error';
 
     public const warning = 'warning';
+    // Status Related - end
+
+    // Gender - start
+    public const male = 'Male';
+
+    public const female = 'Female';
+
+    public const other = 'Other';
+    // Gender - end
 }

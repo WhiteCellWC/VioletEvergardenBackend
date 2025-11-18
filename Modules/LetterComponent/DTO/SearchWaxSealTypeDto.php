@@ -10,7 +10,6 @@ class SearchWaxSealTypeDto
     public function __construct(
         public ?int $userId,
         public ?string $name,
-        public ?string $color,
         public ?bool $isCustom,
         public ?float $price,
         public ?bool $isPremium,
@@ -23,7 +22,6 @@ class SearchWaxSealTypeDto
         return [
             WaxSealType::userId => $this->userId,
             WaxSealType::name => $this->name,
-            WaxSealType::color => $this->color,
             WaxSealType::isCustom => $this->isCustom,
             WaxSealType::price => $this->price,
             WaxSealType::isPremium => $this->isPremium,
@@ -37,7 +35,6 @@ class SearchWaxSealTypeDto
         return new self(
             $request->user_id,
             $request->name,
-            $request->color,
             $request->is_custom,
             $request->price,
             $request->is_premium,

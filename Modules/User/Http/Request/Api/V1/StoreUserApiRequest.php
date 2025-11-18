@@ -1,11 +1,11 @@
 <?php
 
-namespace Modules\LetterComponent\Http\Request\Api\V1\WaxSealType;
+namespace Modules\User\Http\Request\Api\V1;
 
 use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreWaxSealTypeApiRequest extends FormRequest
+class StoreUserApiRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,14 +23,9 @@ class StoreWaxSealTypeApiRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => 'nullable|exists:' . User::table . ',' . User::id,
             'name' => 'required',
-            'images' => 'required|array',
-            'images.*' => 'image',
-            'price' => 'required|numeric|min:0',
-            'is_premium' => 'nullable|boolean',
-            'discount' => 'nullable|min:0|max:100',
-            'status' => 'nullable|boolean'
+            'email' => 'required|unique:' . User::table . ',' . User::email,
+            'password' => 'required|confirmed|min:8'
         ];
     }
 }

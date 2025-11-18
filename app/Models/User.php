@@ -4,37 +4,38 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable
+class User extends AuthBaseModel
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
-    const table = 'users';
+    // Table Column Start
+    public const table = 'users';
 
-    const id = 'id';
+    public const id = 'id';
 
-    const name = 'name';
+    public const name = 'name';
 
-    const email = 'email';
+    public const email = 'email';
 
-    const password = 'password';
+    public const password = 'password';
 
-    const dateOfBirth = 'date_of_birth';
+    public const dateOfBirth = 'date_of_birth';
 
-    const gender = 'gender';
+    public const gender = 'gender';
 
-    const profileImage = 'profile_image';
+    public const profileImage = 'profile_image';
 
-    const bio = 'bio';
+    public const bio = 'bio';
 
-    const version = 'version';
+    public const version = 'version';
 
-    const createdBy = 'created_by';
+    public const createdBy = 'created_by';
 
-    const updatedBy = 'updated_by';
+    public const updatedBy = 'updated_by';
+    // Table Column End
 
     /**
      * The attributes that are mass assignable.
