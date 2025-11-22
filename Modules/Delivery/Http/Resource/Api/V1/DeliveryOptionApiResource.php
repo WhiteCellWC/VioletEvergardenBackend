@@ -1,11 +1,11 @@
 <?php
 
-namespace Modules\Delivery\Http\Resource\Backend;
+namespace Modules\Delivery\Http\Resource\Api\V1;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class DeliveryOptionBackendResource extends JsonResource
+class DeliveryOptionApiResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,8 +14,6 @@ class DeliveryOptionBackendResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $data = parent::toArray($request);
-        $data['created_at'] = $this->created_at?->diffForHumans();
-        return $data;
+        return parent::toArray($request);
     }
 }

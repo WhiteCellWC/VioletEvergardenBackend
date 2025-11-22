@@ -6,6 +6,7 @@ import { route } from 'ziggy-js'
 
 const openedDropdown = ref(null)
 const locationDropdown = ref('location');
+const deliveryDropdown = ref('delivery');
 const letterComponentDropdown = ref('letter_component');
 const letterDropdown = ref('letter');
 
@@ -26,6 +27,9 @@ onMounted(() => {
     }
     if (route().current('letter-types.*') || route().current('letter-templates.*')) {
         openedDropdown.value = letterDropdown.value;
+    }
+    if (route().current('delivery-options.*')) {
+        openedDropdown.value = deliveryDropdown.value;
     }
 })
 </script>
@@ -135,6 +139,33 @@ onMounted(() => {
                     <Link :href="route('states.index')"
                         class="block p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700"
                         :class="{ 'bg-gray-200 dark:bg-gray-600 font-semibold': route().current('states.*') }">State
+                    </Link>
+                </div>
+            </div>
+
+            <!-- Delivery Dropdown -->
+            <div>
+                <button @click="handleDropdownClick(deliveryDropdown)"
+                    class="w-full flex items-center justify-between p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                    <span>Delivery</span>
+                    <svg :class="{ 'rotate-90': openedDropdown == deliveryDropdown }"
+                        class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" stroke-width="2"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                    </svg>
+                </button>
+
+                <div v-show="openedDropdown == deliveryDropdown"
+                    class="ml-4 mt-2 space-y-1 transition-all duration-200">
+                    <Link :href="route('delivery-options.index')"
+                        class="block p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700"
+                        :class="{ 'bg-gray-200 dark:bg-gray-600 font-semibold': route().current('delivery-options.*') }">
+                    Delivery Option
+                    </Link>
+                    <Link :href="route('delivery-tiers.index')"
+                        class="block p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700"
+                        :class="{ 'bg-gray-200 dark:bg-gray-600 font-semibold': route().current('delivery-tiers.*') }">
+                    Delivery Tier
                     </Link>
                 </div>
             </div>

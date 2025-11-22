@@ -2,10 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
-class DeliveryOption extends Model
+class DeliveryOption extends BaseModel
 {
+    // Table Column Start
     public const table = 'delivery_options';
 
     public const id = 'id';
@@ -29,6 +28,11 @@ class DeliveryOption extends Model
     public const createdBy = 'created_by';
 
     public const updatedBy = 'udpated_by';
+    // Table Column End
+
+    // Relation Start
+    public const deliveryTiers = 'deliveryTiers';
+    // Relation End
 
     protected $fillable = [
         'name',

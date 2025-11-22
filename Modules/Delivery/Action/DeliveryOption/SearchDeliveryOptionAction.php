@@ -5,7 +5,7 @@ namespace Modules\Delivery\Action\DeliveryOption;
 use Throwable;
 use Illuminate\Http\Request;
 use Modules\Delivery\Contract\DeliveryOptionServiceInterface;
-use Modules\Delivery\DTO\DeliveryOptionDto;
+use Modules\Delivery\DTO\SearchDeliveryOptionDto;
 use Modules\Shared\DTO\QueryOptionsDto;
 
 class SearchDeliveryOptionAction
@@ -15,7 +15,7 @@ class SearchDeliveryOptionAction
     public function handle(Request $request, array|string|null $relation = null)
     {
         try {
-            $condsIn = DeliveryOptionDto::fromRequest($request)->toArray();
+            $condsIn = SearchDeliveryOptionDto::fromRequest($request)->toArray();
 
             $queryOptions = QueryOptionsDto::fromRequest($request)->toArray();
 

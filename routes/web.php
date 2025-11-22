@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Modules\Delivery\Http\Controller\Backend\DeliveryOptionController;
+use Modules\Delivery\Http\Controller\Backend\DeliveryTierController;
 use Modules\Letter\Http\Controller\Backend\LetterTemplateController;
 use Modules\Letter\Http\Controller\Backend\LetterTypeController;
 use Modules\LetterComponent\Http\Controller\Backend\EnvelopeTypeController;
@@ -23,3 +25,5 @@ Route::resource('paper-types', PaperTypeController::class);
 Route::resource('wax-seal-types', WaxSealTypeController::class);
 Route::resource('letter-templates', LetterTemplateController::class);
 Route::resource('letter-types', LetterTypeController::class);
+Route::resource('delivery-options', DeliveryOptionController::class);
+Route::resource('delivery-tiers', DeliveryTierController::class);

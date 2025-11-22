@@ -5,7 +5,7 @@ namespace Modules\Delivery\Action\DeliveryTier;
 use Throwable;
 use Illuminate\Http\Request;
 use Modules\Delivery\Contract\DeliveryTierServiceInterface;
-use Modules\Delivery\DTO\DeliveryTierDto;
+use Modules\Delivery\DTO\SearchDeliveryTierDto;
 use Modules\Shared\DTO\QueryOptionsDto;
 
 class SearchDeliveryTierAction
@@ -15,7 +15,7 @@ class SearchDeliveryTierAction
     public function handle(Request $request, array|string|null $relation = null)
     {
         try {
-            $condsIn = DeliveryTierDto::fromRequest($request)->toArray();
+            $condsIn = SearchDeliveryTierDto::fromRequest($request)->toArray();
 
             $queryOptions = QueryOptionsDto::fromRequest($request)->toArray();
 
