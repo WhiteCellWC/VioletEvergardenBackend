@@ -47,6 +47,9 @@ class LetterService extends BaseService implements LetterServiceInterface
                 LetterCache::GET_EXPIRY,
                 fn() => $this->fetch(
                     Letter::when(
+                        $relation,
+                        fn($query, $relation) => $query->with($relation)
+                    )->when(
                         $condsIn,
                         fn($query, $condsIn) => $query->condsInByColumns($condsIn)
                     )->when(

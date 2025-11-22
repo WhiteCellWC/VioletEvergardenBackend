@@ -5,6 +5,11 @@ namespace Modules\Letter\Http\Controller\Api\V1;
 use Throwable;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\EnvelopeType;
+use App\Models\FragranceType;
+use App\Models\LetterTemplate;
+use App\Models\PaperType;
+use App\Models\WaxSealType;
 use Modules\Letter\Action\LetterTemplate\CreateLetterTemplateAction;
 use Modules\Letter\Action\LetterTemplate\DeleteLetterTemplateAction;
 use Modules\Letter\Action\LetterTemplate\SearchLetterTemplateAction;
@@ -16,6 +21,17 @@ use Modules\Letter\Http\Resource\Api\V1\LetterTemplateApiResource;
 
 class LetterTemplateApiController extends Controller
 {
+    protected $frontendRelation = [
+        LetterTemplate::paperType,
+        LetterTemplate::paperType . '.' . PaperType::images,
+        LetterTemplate::waxSealType,
+        LetterTemplate::waxSealType . '.' . WaxSealType::images,
+        LetterTemplate::fragranceType,
+        LetterTemplate::fragranceType . '.' . FragranceType::images,
+        LetterTemplate::envelopeType,
+        LetterTemplate::envelopeType . '.' . EnvelopeType::images,
+    ];
+
     public function __construct(
         protected SearchLetterTemplateAction $searchLetterTemplateAction,
         protected CreateLetterTemplateAction $createLetterTemplateAction,
@@ -58,7 +74,7 @@ class LetterTemplateApiController extends Controller
     public function show(string $id)
     {
         try {
-            $letterTemplate = $this->letterTemplateService->get($id);
+            $letterTemplate = $this->letterTemplateService->get($id, $this->frontendRelation);
 
             return new LetterTemplateApiResource($letterTemplate);
         } catch (Throwable $e) {

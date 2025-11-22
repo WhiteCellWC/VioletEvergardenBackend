@@ -14,6 +14,15 @@ class EnvelopeTypeApiResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'id' => (int) $this->id,
+            'name' => (string) $this->name,
+            'stock' => (int) $this->stock,
+            'price' => (float) $this->price,
+            'description' => (string) $this->description,
+            'is_premimum' => (int) $this->is_premium,
+            'discount' => (float) $this->discount,
+            'images' => (array) getImageUrls($this)
+        ];
     }
 }

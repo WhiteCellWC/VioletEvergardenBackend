@@ -18,6 +18,10 @@ class LetterType extends BaseModel
 
     public const updatedBy = 'updated_by';
 
+     // Relation Start
+    public const letterTemplates = 'letterTemplates';
+    // Relation End
+
     protected $fillable = [
         'name',
         'status',

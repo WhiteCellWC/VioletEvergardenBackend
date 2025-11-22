@@ -7,6 +7,7 @@ import { route } from 'ziggy-js'
 const openedDropdown = ref(null)
 const locationDropdown = ref('location');
 const letterComponentDropdown = ref('letter_component');
+const letterDropdown = ref('letter');
 
 const handleDropdownClick = (dropdown) => {
     if (dropdown == openedDropdown.value) {
@@ -22,6 +23,9 @@ onMounted(() => {
     }
     if (route().current('fragrance-types.*') || route().current('envelope-types.*') || route().current('paper-types.*') || route().current('wax-seal-types.*')) {
         openedDropdown.value = letterComponentDropdown.value;
+    }
+    if (route().current('letter-types.*') || route().current('letter-templates.*')) {
+        openedDropdown.value = letterDropdown.value;
     }
 })
 </script>
@@ -46,6 +50,31 @@ onMounted(() => {
             <a href="#" class="block p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700">Users</a>
             <a href="#" class="block p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700">Letters</a>
             <a href="#" class="block p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700">Packages</a>
+
+            <!-- Letter Dropdown -->
+            <div>
+                <button @click="handleDropdownClick(letterDropdown)"
+                    class="w-full flex items-center justify-between p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                    <span>Letter</span>
+                    <svg :class="{ 'rotate-90': openedDropdown == letterDropdown }" class="w-4 h-4 transition-transform"
+                        fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                    </svg>
+                </button>
+
+                <div v-show="openedDropdown == letterDropdown" class="ml-4 mt-2 space-y-1 transition-all duration-200">
+                    <Link :href="route('letter-types.index')"
+                        class="block p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700"
+                        :class="{ 'bg-gray-200 dark:bg-gray-600 font-semibold': route().current('letter-types.*') }">
+                    Letter Type
+                    </Link>
+                    <Link :href="route('letter-templates.index')"
+                        class="block p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700"
+                        :class="{ 'bg-gray-200 dark:bg-gray-600 font-semibold': route().current('letter-templates.*') }">
+                    Letter Templates
+                    </Link>
+                </div>
+            </div>
 
             <!-- Letter Component Dropdown -->
             <div>

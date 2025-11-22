@@ -5,6 +5,7 @@ namespace Modules\Letter\Http\Controller\Api\V1;
 use Throwable;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\LetterType;
 use Modules\Letter\Action\LetterType\CreateLetterTypeAction;
 use Modules\Letter\Action\LetterType\DeleteLetterTypeAction;
 use Modules\Letter\Action\LetterType\SearchLetterTypeAction;
@@ -31,6 +32,8 @@ class LetterTypeApiController extends Controller
     {
         try {
             $letterTypes = $this->searchLetterTypeAction->handle($request);
+
+            $letterTypes->loadCount(LetterType::letterTemplates);
 
             return LetterTypeApiResource::collection($letterTypes);
         } catch (Throwable $e) {

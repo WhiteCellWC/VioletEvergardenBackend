@@ -19,10 +19,8 @@ const form = useForm({
     name: '',
     user_id: '',
     price: '',
-    stock: 0,
     discount: null,
     images: null,
-    image: null,
     is_premium: false,
     status: true
 })
@@ -60,19 +58,8 @@ const cancel = () => {
                 </div>
 
                 <div class="flex flex-col gap-2">
-                    <Label for="description" mandatory>Description</Label>
-                    <TextAreaInput id="description" placeholder="Input Description" v-model="form.description" />
-                </div>
-
-
-                <div class="flex flex-col gap-2">
                     <Label for="price" mandatory>Price</Label>
                     <NumberInput id="price" placeholder="Input Price" v-model="form.price" />
-                </div>
-
-                <div class="flex flex-col gap-2">
-                    <Label for="stock" mandatory>Stock</Label>
-                    <NumberInput id="stock" placeholder="Input Stock" v-model="form.stock" :min="0" />
                 </div>
 
                 <div class="flex flex-col gap-2">

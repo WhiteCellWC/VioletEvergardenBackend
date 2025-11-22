@@ -150,7 +150,7 @@ watch(limit, (newLimit) => {
                         class="px-4 py-2 border-b border-gray-300 dark:border-gray-700 text-start">
                         <div class="flex items-center gap-2" :class="col.sortable ? 'cursor-pointer' : ''"
                             @click="col.sortable && sort(col.field, col?.sort)">
-                            <div>
+                            <div class="whitespace-nowrap">
                                 {{ col.label }}
                             </div>
                             <div v-if="col.sortable">

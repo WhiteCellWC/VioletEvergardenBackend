@@ -16,7 +16,8 @@ class SearchLetterTemplateDto
         public ?int $fragranceTypeId,
         public ?int $envelopeTypeId,
         public ?int $waxSealTypeId,
-        public ?bool $status
+        public ?bool $status,
+        public ?int $letterTypeId,
     ) {}
 
     public function toArray()
@@ -29,7 +30,8 @@ class SearchLetterTemplateDto
             LetterTemplate::fragranceTypeId => $this->fragranceTypeId,
             LetterTemplate::envelopeTypeId => $this->envelopeTypeId,
             LetterTemplate::waxSealTypeId => $this->waxSealTypeId,
-            LetterTemplate::status => $this->status
+            LetterTemplate::status => $this->status,
+            'letter_type_id' => $this->letterTypeId
         ];
     }
 
@@ -43,7 +45,8 @@ class SearchLetterTemplateDto
             $request->fragrance_type_id,
             $request->envelope_type_id,
             $request->wax_seal_type_id,
-            $request->status
+            $request->status,
+            $request->letter_type_id,
         );
     }
 }

@@ -25,7 +25,8 @@ const props = defineProps({
     position: { type: [String, Array], default: () => ['relative'] },
     transition: { type: [String, Array], default: () => ['transition'] },
     focus: { type: [String, Array], default: () => ['focus:outline-none'] },
-    extraClass: { type: [String, Array], default: () => [] }
+    extraClass: { type: [String, Array], default: () => [] },
+    openUpwards: { type: Boolean, default: false }
 });
 
 // Refs
@@ -158,7 +159,11 @@ onBeforeUnmount(() => {
             enter-from-class="opacity-0 scale-95" enter-to-class="opacity-100 scale-100"
             leave-active-class="transition transform duration-150 ease-in" leave-from-class="opacity-100 scale-100"
             leave-to-class="opacity-0 scale-95">
-            <div v-if="dropdownOpen" class="absolute top-full start-0 mt-2 z-10" :class="[...background, ...border]">
+            <div v-if="dropdownOpen" class="absolute z-10" :class="[
+                openUpwards ? 'bottom-full mb-2' : 'top-full mt-2',
+                ...background,
+                ...border
+            ]">
 
                 <!-- Search input -->
                 <DropdownSearch v-if="allowSearch" :modelValue="searchTerm" @update:modelValue="handleSearch"

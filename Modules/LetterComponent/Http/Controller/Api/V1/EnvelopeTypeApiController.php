@@ -5,6 +5,7 @@ namespace Modules\LetterComponent\Http\Controller\Api\V1;
 use Throwable;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\EnvelopeType;
 use Modules\LetterComponent\Action\EnvelopeType\CreateEnvelopeTypeAction;
 use Modules\LetterComponent\Action\EnvelopeType\DeleteEnvelopeTypeAction;
 use Modules\LetterComponent\Action\EnvelopeType\SearchEnvelopeTypeAction;
@@ -16,6 +17,8 @@ use Modules\LetterComponent\Http\Resource\Api\V1\EnvelopeTypeApiResource;
 
 class EnvelopeTypeApiController extends Controller
 {
+    protected $apiRelation = [EnvelopeType::images];
+
     public function __construct(
         protected SearchEnvelopeTypeAction $searchEnvelopeTypeAction,
         protected CreateEnvelopeTypeAction $createEnvelopeTypeAction,
@@ -30,7 +33,7 @@ class EnvelopeTypeApiController extends Controller
     public function index(Request $request)
     {
         try {
-            $envelopeTypes = $this->searchEnvelopeTypeAction->handle($request);
+            $envelopeTypes = $this->searchEnvelopeTypeAction->handle($request, $this->apiRelation);
 
             return EnvelopeTypeApiResource::collection($envelopeTypes);
         } catch (Throwable $e) {

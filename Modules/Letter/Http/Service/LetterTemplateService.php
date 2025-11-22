@@ -4,6 +4,7 @@ namespace Modules\Letter\Http\Service;
 
 use App\Http\Service\BaseService;
 use App\Models\LetterTemplate;
+use App\Models\LetterType;
 use Exception;
 use Illuminate\Support\Facades\Cache;
 use Modules\Letter\Contract\LetterTemplateServiceInterface;
@@ -47,6 +48,9 @@ class LetterTemplateService extends BaseService implements LetterTemplateService
                 LetterTemplateCache::GET_EXPIRY,
                 fn() => $this->fetch(
                     LetterTemplate::when(
+                        $relation,
+                        fn($query, $relation) => $query->with($relation)
+                    )->when(
                         $condsIn,
                         fn($query, $condsIn) => $query->condsInByColumns($condsIn)
                     )->when(
@@ -55,11 +59,16 @@ class LetterTemplateService extends BaseService implements LetterTemplateService
                     )->when(
                         $queryOptions,
                         fn($query, $queryOptions) => $query->queryOptions($queryOptions)
-                    ),
+                    )->when(isset($condsIn['letter_type_id']) && $condsIn['letter_type_id'], function ($query) use ($condsIn) {
+                        $query->whereHas(LetterTemplate::letterTypes, function ($q) use ($condsIn) {
+                            $q->where(LetterType::table . '.' . LetterType::id, $condsIn['letter_type_id']);
+                        });
+                    }),
                     $queryOptions
                 )
             );
         } catch (Exception $e) {
+            dd($e->getMessage());
             throw $e;
         }
     }

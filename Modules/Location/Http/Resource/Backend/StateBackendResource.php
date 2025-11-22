@@ -14,6 +14,8 @@ class StateBackendResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        $data = parent::toArray($request);
+        $data['created_at'] = $this->created_at?->diffForHumans();
+        return $data;
     }
 }

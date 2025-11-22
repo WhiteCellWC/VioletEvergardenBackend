@@ -23,6 +23,7 @@ class SearchLetterTemplateAction
 
             return $letterTemplates;
         } catch (Throwable $e) {
+            dd($e->getMessage());
             throw $e;
         }
     }

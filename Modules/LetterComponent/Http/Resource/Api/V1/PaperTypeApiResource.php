@@ -14,6 +14,15 @@ class PaperTypeApiResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'id' => (int) $this->id,
+            'name' => (string) $this->name,
+            'stock' => (int) $this->stock,
+            'price' => (float) $this->price_per_page,
+            'description' => (string) $this->description,
+            'is_premium' => (int) $this->is_premimum,
+            'discount' => (float) $this->discount,
+            'images' => (array) getImageUrls($this)
+        ];
     }
 }

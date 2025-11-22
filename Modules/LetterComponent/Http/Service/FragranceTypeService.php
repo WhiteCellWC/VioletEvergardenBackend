@@ -55,6 +55,9 @@ class FragranceTypeService extends BaseService implements FragranceTypeServiceIn
                     )->when(
                         $queryOptions,
                         fn($query, $queryOptions) => $query->queryOptions($queryOptions)
+                    )->when(
+                        $relation,
+                        fn($query, $relation) => $query->with($relation)
                     ),
                     $queryOptions
                 )

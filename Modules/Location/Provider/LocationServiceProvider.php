@@ -4,6 +4,7 @@ namespace Modules\Location\Provider;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
 use Modules\Location\Contract\CountryServiceInterface;
 use Modules\Location\Contract\StateServiceInterface;
 use Modules\Location\Http\Service\CountryService;
@@ -25,7 +26,10 @@ class LocationServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Route::middleware('api')
+        Route::middleware([
+            'api',
+            EnsureFrontendRequestsAreStateful::class
+        ])
             ->prefix('api/v1')
             ->as('api.v1.')
             ->group(function () {

@@ -5,6 +5,7 @@ namespace Modules\LetterComponent\Http\Controller\Api\V1;
 use Throwable;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\PaperType;
 use Modules\LetterComponent\Action\PaperType\CreatePaperTypeAction;
 use Modules\LetterComponent\Action\PaperType\DeletePaperTypeAction;
 use Modules\LetterComponent\Action\PaperType\SearchPaperTypeAction;
@@ -16,6 +17,8 @@ use Modules\LetterComponent\Http\Resource\Api\V1\PaperTypeApiResource;
 
 class PaperTypeApiController extends Controller
 {
+    protected $apiRelation = [PaperType::images];
+
     public function __construct(
         protected SearchPaperTypeAction $searchPaperTypeAction,
         protected CreatePaperTypeAction $createPaperTypeAction,
@@ -30,7 +33,7 @@ class PaperTypeApiController extends Controller
     public function index(Request $request)
     {
         try {
-            $paperTypes = $this->searchPaperTypeAction->handle($request);
+            $paperTypes = $this->searchPaperTypeAction->handle($request, $this->apiRelation);
 
             return PaperTypeApiResource::collection($paperTypes);
         } catch (Throwable $e) {

@@ -30,14 +30,14 @@ class UpdateLetterApiRequest extends FormRequest
     public function rules(): array
     {
         $letterValidations = [
-            'user_id' => 'required|exists:' . User::table . ',' . User::id,
-            'title' => 'required',
-            'body' => 'required',
-            'send_type' => ['required', new Enum(SendType::class)],
-            'paper_type_id' => 'required|exists:' . PaperType::table . ',' . PaperType::id,
+            'user_id' => 'required_if:is_draft,0|exists:' . User::table . ',' . User::id,
+            'title' => 'required_if:is_draft,0',
+            'body' => 'required_if:is_draft,0',
+            'send_type' => ['required_if:is_draft,0', new Enum(SendType::class)],
+            'paper_type_id' => 'required_if:is_draft,0|exists:' . PaperType::table . ',' . PaperType::id,
             'fragrance_type_id' => 'nullable|exists:' . FragranceType::table . ',' . FragranceType::id,
-            'envelope_type_id' => 'required|exists:' . EnvelopeType::table . ',' . EnvelopeType::id,
-            'wax_seal_type_id' => 'required|exists:' . WaxSealType::table . ',' . WaxSealType::id,
+            'envelope_type_id' => 'required_if:is_draft,0|exists:' . EnvelopeType::table . ',' . EnvelopeType::id,
+            'wax_seal_type_id' => 'required_if:is_draft,0|exists:' . WaxSealType::table . ',' . WaxSealType::id,
             'is_draft' => 'nullable|boolean',
             'is_sent' => 'nullable|boolean',
             'is_sealed' => 'nullable|boolean',

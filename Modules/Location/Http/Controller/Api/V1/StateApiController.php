@@ -32,9 +32,7 @@ class StateApiController extends Controller
         try {
             $states = $this->searchStateAction->handle($request);
 
-            $statesResource = StateApiResource::collection($states);
-
-            return response()->json($statesResource);
+            return StateApiResource::collection($states);
         } catch (Throwable $e) {
             dd($e->getMessage());
         }
@@ -48,9 +46,7 @@ class StateApiController extends Controller
         try {
             $state = $this->createStateAction->handle($request);
 
-            $stateResource = new StateApiResource($state);
-
-            return response()->json($stateResource);
+            return new StateApiResource($state);
         } catch (Throwable $e) {
             dd($e->getMessage());
         }
@@ -64,9 +60,7 @@ class StateApiController extends Controller
         try {
             $state = $this->stateService->get($id);
 
-            $stateResource = new StateApiResource($state);
-
-            return response()->json($stateResource);
+            return new StateApiResource($state);
         } catch (Throwable $e) {
             dd($e->getMessage());
         }
@@ -80,9 +74,7 @@ class StateApiController extends Controller
         try {
             $state = $this->updateStateAction->handle($request, $id);
 
-            $stateResource = new StateApiResource($state);
-
-            return response()->json($stateResource);
+            return new StateApiResource($state);
         } catch (Throwable $e) {
             dd($e->getMessage());
         }

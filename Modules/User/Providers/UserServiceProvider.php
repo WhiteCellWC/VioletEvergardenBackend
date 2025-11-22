@@ -4,6 +4,7 @@ namespace Modules\User\Providers;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
 use Modules\User\Contract\UserServiceInterface;
 use Modules\User\Http\Service\UserService;
 
@@ -22,7 +23,10 @@ class UserServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Route::middleware('api')
+        Route::middleware([
+            'api',
+            EnsureFrontendRequestsAreStateful::class
+        ])
             ->prefix('api/v1')
             ->as('api.v1.')
             ->group(function () {

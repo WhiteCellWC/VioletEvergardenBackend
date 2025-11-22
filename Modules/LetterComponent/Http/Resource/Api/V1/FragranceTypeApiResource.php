@@ -14,6 +14,14 @@ class FragranceTypeApiResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'id' => (int) $this->id,
+            'name' => (string) $this->name,
+            'description' => (string) $this->description,
+            'is_premimum' => (int) $this->is_premium,
+            'price' => (float) $this->price,
+            'discount' => (float) $this->discount,
+            'images' => (array) getImageUrls($this)
+        ];
     }
 }

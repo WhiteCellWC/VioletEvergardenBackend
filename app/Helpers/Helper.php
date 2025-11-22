@@ -28,3 +28,19 @@ if (! function_exists('redirectView')) {
         }
     }
 }
+
+if (! function_exists('getImageUrls')) {
+    function getImageUrls($class)
+    {
+        $images = [];
+        if (empty($class->images)) {
+            return $images;
+        }
+
+        foreach($class->images as $image) {
+            $images[] = env('APP_URL') . $image->image_path;
+        }
+
+        return $images;
+    }
+}

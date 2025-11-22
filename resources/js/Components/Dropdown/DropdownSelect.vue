@@ -18,7 +18,7 @@ const props = defineProps({
     <div v-if="selectedValue">
         {{ selectedValue }}
     </div>
-    <div v-else>
+    <div v-else class="opacity-50">
         {{ placeholder }}
     </div>
 </template>

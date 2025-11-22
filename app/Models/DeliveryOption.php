@@ -6,27 +6,30 @@ use Illuminate\Database\Eloquent\Model;
 
 class DeliveryOption extends Model
 {
-    const table = 'delivery_options';
+    public const table = 'delivery_options';
 
-    const id = 'id';
+    public const id = 'id';
 
-    const name = 'name';
+    public const name = 'name';
 
-    const isWeightBased = 'is_weight_based';
+    public const isWeightBased = 'is_weight_based';
 
-    const deliveryType = 'delivery_type';
+    public const baseCost = 'base_cost';
 
-    const estimatedDays = 'estimated_days';
+    public const deliveryType = 'delivery_type';
 
-    const hasTracking = 'has_tracking';
+    public const estimatedDays = 'estimated_days';
 
-    const status = 'status';
+    public const hasTracking = 'has_tracking';
 
-    const version = 'version';
+    public const status = 'status';
 
-    const createdBy = 'created_by';
+    public const version = 'version';
 
-    const updatedBy = 'udpated_by';
+    public const createdBy = 'created_by';
+
+    public const updatedBy = 'udpated_by';
+
     protected $fillable = [
         'name',
         'is_weight_based',

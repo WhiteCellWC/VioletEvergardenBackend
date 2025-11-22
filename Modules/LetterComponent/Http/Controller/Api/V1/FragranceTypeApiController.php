@@ -5,6 +5,7 @@ namespace Modules\LetterComponent\Http\Controller\Api\V1;
 use Throwable;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\FragranceType;
 use Modules\LetterComponent\Http\Resource\Api\V1\FragranceTypeApiResource;
 use Modules\LetterComponent\Contract\FragranceTypeServiceInterface;
 use Modules\LetterComponent\Action\FragranceType\CreateFragranceTypeAction;
@@ -16,6 +17,8 @@ use Modules\LetterComponent\Http\Request\Api\V1\FragranceType\UpdateFragranceTyp
 
 class FragranceTypeApiController extends Controller
 {
+    protected $apiRelation = [FragranceType::images];
+
     public function __construct(
         protected SearchFragranceTypeAction $searchFragranceTypeAction,
         protected CreateFragranceTypeAction $createFragranceTypeAction,
@@ -30,7 +33,7 @@ class FragranceTypeApiController extends Controller
     public function index(Request $request)
     {
         try {
-            $fragranceTypes = $this->searchFragranceTypeAction->handle($request);
+            $fragranceTypes = $this->searchFragranceTypeAction->handle($request, $this->apiRelation);
 
             return FragranceTypeApiResource::collection($fragranceTypes);
         } catch (Throwable $e) {

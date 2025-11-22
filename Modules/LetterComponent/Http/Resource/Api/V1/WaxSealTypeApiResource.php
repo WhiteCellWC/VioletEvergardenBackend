@@ -14,6 +14,13 @@ class WaxSealTypeApiResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'id' => (int) $this->id,
+            'name' => (string) $this->name,
+            'price' => (float) $this->price,
+            'is_premium' => (int) $this->is_premimum,
+            'discount' => (float) $this->discount,
+            'images' => (array) getImageUrls($this)
+        ];
     }
 }
