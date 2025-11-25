@@ -53,7 +53,6 @@ onMounted(() => {
             Dashboard</Link>
             <a href="#" class="block p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700">Users</a>
             <a href="#" class="block p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700">Letters</a>
-            <a href="#" class="block p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700">Packages</a>
 
             <!-- Letter Dropdown -->
             <div>

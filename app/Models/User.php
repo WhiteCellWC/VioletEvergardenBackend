@@ -31,6 +31,10 @@ class User extends AuthBaseModel
 
     public const bio = 'bio';
 
+    public const passwordResetCode = 'password_reset_code';
+
+    public const passwordResetCodeExpiry = 'password_reset_code_expiry';
+
     public const version = 'version';
 
     public const createdBy = 'created_by';

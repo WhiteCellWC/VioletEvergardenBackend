@@ -22,6 +22,8 @@ return new class extends Migration
             $table->enum('gender',['Male', 'Female', 'Other'])->nullable();
             $table->string('profile_image')->nullable();
             $table->text('bio')->nullable();
+            $table->text('password_reset_code ')->nullable();
+            $table->timestamp('password_reset_code_expiry ')->nullable();
             $table->bigInteger('version')->default(1);
             $table->foreignId('created_by')->nullable()->constrained(User::table);
             $table->foreignId('updated_by')->nullable()->constrained(User::table);
