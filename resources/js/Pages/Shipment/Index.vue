@@ -85,7 +85,7 @@ const breadcrumbs = ref([
                         <Link :href="'#'" method="delete" class="">
                         <FontAwesomeIcon :icon="['fas', 'eye']" class="text-green-500 me-2" />
                         </Link>
-                        <Link :href="'#'">
+                        <Link :href="route('shipments.edit', { shipment: row.id })">
                         <FontAwesomeIcon :icon="['fas', 'pen-to-square']" class="text-blue-500" />
                         </Link>
                     </template>

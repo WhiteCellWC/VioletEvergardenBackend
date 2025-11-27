@@ -30,4 +30,4 @@ Route::resource('letter-types', LetterTypeController::class);
 Route::resource('delivery-options', DeliveryOptionController::class);
 Route::resource('delivery-tiers', DeliveryTierController::class);
 Route::resource('users', UserController::class)->only(['index']);
-Route::resource('shipments', ShipmentController::class)->only(['index']);
+Route::resource('shipments', ShipmentController::class)->only(['index', 'edit', 'update']);

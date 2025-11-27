@@ -3,20 +3,25 @@
 namespace Modules\Delivery\Http\Controller\Backend;
 
 use App\Enums\FlagType;
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
-use App\Models\DeliveryTier;
 use App\Models\Letter;
 use App\Models\Recipient;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Modules\Delivery\Action\Shipment\SearchShipmentAction;
+use Modules\Delivery\Action\Shipment\UpdateShipmentAction;
+use Modules\Delivery\Http\Request\Backend\Shipment\UpdateShipmentRequest;
 use Modules\Delivery\Http\Resource\Backend\ShipmentBackendResource;
+use Modules\Letter\Contract\LetterServiceInterface;
 use Throwable;
 
 class ShipmentController extends Controller
 {
     public function __construct(
-        protected SearchShipmentAction $searchShipmentAction
+        protected SearchShipmentAction $searchShipmentAction,
+        protected LetterServiceInterface $letterService,
+        protected UpdateShipmentAction $updateShipmentAction
     ) {}
 
     public const parentPath = 'Shipment';
@@ -74,15 +79,25 @@ class ShipmentController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        try {
+            $letter = $this->letterService->get($id, $this->backendRelation);
+            return Inertia::render(self::editPath, ['shipment' => new ShipmentBackendResource($letter)]);
+        } catch (Throwable $e) {
+            dd($e->getMessage());
+        }
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateShipmentRequest $request, string $id)
     {
-        //
+        try {
+            $this->updateShipmentAction->handle($request, $id);
+            return Helper::redirectView('shipments.index', 'Shipment updated successfully!', FlagType::SUCCESS);
+        } catch (Throwable $e) {
+            dd($e->getMessage());
+        }
     }
 
     /**
