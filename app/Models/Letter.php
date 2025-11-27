@@ -41,6 +41,10 @@ class Letter extends BaseModel
     // Table Column End
 
     // Relation Start
+    public const user = 'user';
+
+    public const recipients = 'recipients';
+
     public const letterTypes = 'letterTypes';
     // Relation End
 

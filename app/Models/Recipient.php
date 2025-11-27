@@ -38,6 +38,10 @@ class Recipient extends Model
 
     const updatedBy = 'updated_by';
 
+    // Relation Start
+    public const letterDeliveries = 'letterDeliveries';
+    // Relation End
+
     protected $fillable = [
         'user_id',
         'letter_id',

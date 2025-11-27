@@ -50,9 +50,14 @@ onMounted(() => {
         <nav class="space-y-2 mt-4">
             <Link :href="route('dashboard')" class="block p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700"
                 :class="{ 'bg-gray-200 dark:bg-gray-600 font-semibold': route().current('dashboard') }">
-            Dashboard</Link>
-            <a href="#" class="block p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700">Users</a>
-            <a href="#" class="block p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700">Shipment</a>
+            Dashboard
+            </Link>
+            <Link :href="route('users.index')" class="block p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+            Users
+            </Link>
+            <Link :href="route('shipments.index')" class="block p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+            Shipment
+            </Link>
 
             <!-- Letter Dropdown -->
             <div>

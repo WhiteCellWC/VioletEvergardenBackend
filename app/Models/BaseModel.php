@@ -12,7 +12,10 @@ class BaseModel extends Model
     {
         if (!empty($columnMap) && count($columnMap) > 0) {
             foreach ($columnMap as $column => $value) {
-                if ($this->isValidColumn($column) && $value) {
+                if ($this->isValidColumn($column) && $value !== null) {
+                    if (is_bool($value)) {
+                        $value = $value ? 1 : 0;
+                    }
                     $query->where($column, 'LIKE', "%$value%");
                 }
             }
