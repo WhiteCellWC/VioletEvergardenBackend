@@ -14,7 +14,7 @@ class LetterDelivery extends Model
 
     const deliveryTierId = 'delivery_tier_id';
 
-    const deliverycost = 'delivery_cost';
+    const deliveryCost = 'delivery_cost';
 
     const trackingNumber = 'tracking_number';
 

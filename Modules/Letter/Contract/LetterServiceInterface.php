@@ -11,9 +11,9 @@ interface LetterServiceInterface
 
     public function getAll(string|array|null $relation = null, ?array $condsIn = null, ?array $condsNotIn = null, ?array $queryOptions = null);
 
-    public function create(LetterDto $letterTemplateDto);
+    public function create(LetterDto $letterDto);
 
-    public function update(LetterDto $letterTemplateDto);
+    public function update(LetterDto $letterDto);
 
     public function delete(string|Letter $id);
 }

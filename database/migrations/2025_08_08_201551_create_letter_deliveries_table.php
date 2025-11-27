@@ -22,7 +22,7 @@ return new class extends Migration
             $table->foreignId('delivery_tier_id')->constrained(DeliveryTier::table);
             $table->decimal('delivery_cost');
             $table->string('tracking_number')->nullable();
-            $table->enum('delivery_status', ['delivery-status-1', 'delivery-status-2']);
+            $table->enum('delivery_status', ['pending', 'delivered']);
             $table->datetime('scheduled_at');
             $table->datetime('shipped_at')->nullable();
             $table->datetime('delivered_at')->nullable();

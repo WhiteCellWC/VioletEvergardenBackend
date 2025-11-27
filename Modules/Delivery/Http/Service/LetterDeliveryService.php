@@ -3,25 +3,25 @@
 namespace Modules\Delivery\Http\Service;
 
 use App\Http\Service\BaseService;
-use App\Models\DeliveryTier;
+use App\Models\LetterDelivery;
 use Exception;
 use Illuminate\Support\Facades\Cache;
-use Modules\Delivery\Contract\DeliveryTierServiceInterface;
-use Modules\Delivery\DTO\DeliveryTierDto;
-use Modules\Delivery\Http\Cache\DeliveryTierCache;
+use Modules\Delivery\Contract\LetterDeliveryServiceInterface;
+use Modules\Delivery\DTO\LetterDeliveryDto;
+use Modules\Delivery\Http\Cache\LetterDeliveryCache;
 
-class DeliveryTierService extends BaseService implements DeliveryTierServiceInterface
+class LetterDeliveryService extends BaseService implements LetterDeliveryServiceInterface
 {
     public function get(string $id, string|array|null $relation = null)
     {
         try {
-            $cacheKey = DeliveryTierCache::GET . '_' . $id . ':' . md5(json_encode([
+            $cacheKey = LetterDeliveryCache::GET . '_' . $id . ':' . md5(json_encode([
                 'relation' => $relation
             ]));
-            return Cache::tags([DeliveryTierCache::GET, DeliveryTierCache::GET . "_" . $id])->remember(
+            return Cache::tags([LetterDeliveryCache::GET, LetterDeliveryCache::GET . "_" . $id])->remember(
                 $cacheKey,
-                DeliveryTierCache::GET_EXPIRY,
-                fn() => DeliveryTier::query()
+                LetterDeliveryCache::GET_EXPIRY,
+                fn() => LetterDelivery::query()
                     ->when(
                         $relation,
                         fn($query, $relation) => $query->with($relation)
@@ -35,18 +35,18 @@ class DeliveryTierService extends BaseService implements DeliveryTierServiceInte
     public function getAll(string|array|null $relation = null, ?array $condsIn = null, ?array $condsNotIn = null, ?array $queryOptions = null)
     {
         try {
-            $cacheKey = DeliveryTierCache::GET_ALL . ':' . md5(json_encode([
+            $cacheKey = LetterDeliveryCache::GET_ALL . ':' . md5(json_encode([
                 'relation' => $relation,
                 'condsIn'   => $condsIn,
                 'condsNotIn' => $condsNotIn,
                 'queryOptions' => $queryOptions
             ]));
 
-            return Cache::tags([DeliveryTierCache::GET_ALL])->remember(
+            return Cache::tags([LetterDeliveryCache::GET_ALL])->remember(
                 $cacheKey,
-                DeliveryTierCache::GET_EXPIRY,
+                LetterDeliveryCache::GET_EXPIRY,
                 fn() => $this->fetch(
-                    DeliveryTier::when(
+                    LetterDelivery::when(
                         $relation,
                         fn($query, $relation) => $query->with($relation)
                     )->when(
@@ -67,34 +67,34 @@ class DeliveryTierService extends BaseService implements DeliveryTierServiceInte
         }
     }
 
-    public function create(DeliveryTierDto $deliveryTierDto)
+    public function create(LetterDeliveryDto $letterDeliveryDto)
     {
         try {
-            return DeliveryTier::create($deliveryTierDto->toArray());
+            return LetterDelivery::create($letterDeliveryDto->toArray());
         } catch (Exception $e) {
             throw $e;
         }
     }
 
-    public function update(DeliveryTierDto $deliveryTierDto)
+    public function update(LetterDeliveryDto $letterDeliveryDto)
     {
         try {
-            $deliveryTier = $this->get($deliveryTierDto->id);
-            $deliveryTier->fill($deliveryTierDto->toArray());
-            $deliveryTier->save();
+            $letterDelivery = $this->get($letterDeliveryDto->id);
+            $letterDelivery->fill($letterDeliveryDto->toArray());
+            $letterDelivery->save();
 
-            return $deliveryTier;
+            return $letterDelivery;
         } catch (Exception $e) {
             throw $e;
         }
     }
 
-    public function delete(string|DeliveryTier $id)
+    public function delete(string|LetterDelivery $id)
     {
         try {
-            $deliveryTier = $id instanceof DeliveryTier ? $id : $this->get($id);
-            $title = $deliveryTier->{DeliveryTier::maxWeight};
-            $deliveryTier->delete();
+            $letterDelivery = $id instanceof LetterDelivery ? $id : $this->get($id);
+            $title = $letterDelivery->{LetterDelivery::id};
+            $letterDelivery->delete();
 
             return $title;
         } catch (Exception $e) {
