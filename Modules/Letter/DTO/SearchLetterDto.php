@@ -20,7 +20,8 @@ class SearchLetterDto
         public ?bool $isDraft,
         public ?bool $isSent,
         public ?bool $isSealed,
-        public ?bool $isPrinted
+        public ?bool $isPrinted,
+        public ?string $recipientEmail
     ) {}
 
     public function toArray()
@@ -37,7 +38,8 @@ class SearchLetterDto
             Letter::isDraft => $this->isDraft,
             Letter::isSent => $this->isSent,
             Letter::isSealed => $this->isSealed,
-            Letter::isPrinted => $this->isPrinted
+            Letter::isPrinted => $this->isPrinted,
+            'recipient_email' => $this->recipientEmail
         ];
     }
 
@@ -56,6 +58,7 @@ class SearchLetterDto
             $request->is_sent,
             $request->is_sealed,
             $request->is_printed,
+            $request->recipient_email
         );
     }
 }

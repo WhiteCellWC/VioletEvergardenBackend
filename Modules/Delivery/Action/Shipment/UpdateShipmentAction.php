@@ -52,11 +52,10 @@ class UpdateShipmentAction
                 );
 
                 $this->letterDeliveryService->update($letterDeliveryDto);
-
-                Cache::forget(LetterDeliveryCache::getCacheKey(LetterDeliveryCache::GET, $recipientData['letter_delivery_id']));
             }
 
-            Cache::forget(LetterDeliveryCache::getCacheKey(LetterDeliveryCache::GET_ALL));
+            Cache::tags([LetterDeliveryCache::GET_ALL])->flush();
+            Cache::tags([LetterDeliveryCache::GET])->flush();
 
             $letter = $this->letterService->get($id, [Letter::recipients . '.' . Recipient::letterDeliveries]);
 
@@ -67,12 +66,14 @@ class UpdateShipmentAction
             });
 
             if ($allDelivered && !$letter->is_sent) {
-                $letterDto = new LetterDto(['is_sent' => 1]);
-                $this->letterService->update($letterDto, $id);
+                $letter = $this->letterService->get($id);
 
-                Cache::forget(LetterCache::getCacheKey(LetterCache::GET_ALL));
-                Cache::forget(LetterCache::getCacheKey(LetterCache::GET, $id));
+                $letter->update([
+                    Letter::isSent => 1
+                ]);
             }
+            Cache::tags([LetterCache::GET_ALL])->flush();
+            Cache::tags([LetterCache::GET])->flush();
 
             return $this->letterService->get($id);
         });

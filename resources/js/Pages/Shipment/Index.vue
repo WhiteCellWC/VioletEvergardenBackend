@@ -36,7 +36,8 @@ const columns = ref([
         field: row => {
             let deliveredCount = 0;
             row?.recipients?.forEach(recipient => {
-                if (recipient?.letterDeliveries?.delivery_status == 'delivered') {
+                console.log(recipient);
+                if (recipient?.letter_deliveries?.[0]?.delivery_status == 'delivered') {
                     deliveredCount++;
                 }
             })

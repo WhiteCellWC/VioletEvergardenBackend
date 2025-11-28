@@ -17,8 +17,7 @@ class SearchShipmentAction
     {
         try {
             $request->merge([
-                'is_draft' => 0,
-                'send_type' => SendType::PHYSICAL->value
+                'is_draft' => 0
             ]);
 
             $condsIn = SearchShipmentDto::fromRequest($request)->toArray();

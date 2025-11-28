@@ -22,6 +22,12 @@ const form = useForm({
     recipients: props.shipment.data.recipients.map(recipient => ({
         recipient_id: recipient.id,
         recipient_name: recipient.name,
+        recipient_email: recipient.email,
+        recipient_address1: recipient.address_line_1,
+        recipient_address2: recipient.address_line_2,
+        country: recipient.country.name,
+        state: recipient.state.name,
+        postal_code: recipient.postal_code,
         letter_delivery_id: recipient.letter_deliveries[0]?.id,
         delivery_status: recipient.letter_deliveries[0]?.delivery_status === 'delivered',
     })),
@@ -58,16 +64,75 @@ const cancel = () => {
 
             <div class="p-4">
                 <form @submit.prevent="submit" class="grid grid-cols-1 gap-4">
-                    <div v-for="(recipient, index) in form.recipients" :key="recipient.recipient_id" class="p-4 border rounded-md">
-                        <div class="flex items-center justify-between">
-                            <Label :for="'delivery_status_' + index" :value="recipient.recipient_name" />
-                            <ToggleInput
-                                :id="'delivery_status_' + index"
-                                v-model="recipient.delivery_status"
-                                label="Delivered"
-                            />
+                    <div class="grid grid-cols-2">
+                        <div class="flex flex-col">
+                            <Label :for="'paper_type_' + index">
+                                {{ props.shipment.data.paper_type?.name }}
+                            </Label>
+                            <img class="h-64 w-64 object-cover rounded-md bg-gray-100"
+                                :src="props.shipment.data.paper_type?.images?.[0]?.image_path || '/placeholder.png'"
+                                alt="Paper Type" />
                         </div>
-                         <div v-if="form.errors[`recipients.${index}.delivery_status`]" class="text-red-500 text-sm mt-1">
+
+                        <div class="flex flex-col">
+                            <Label :for="'envelope_type_' + index">
+                                {{ props.shipment.data.envelope_type?.name }}
+                            </Label>
+                            <img class="h-64 w-64 object-cover rounded-md bg-gray-100"
+                                :src="props.shipment.data.envelope_type?.images?.[0]?.image_path || '/placeholder.png'"
+                                alt="Envelope Type" />
+                        </div>
+
+                        <div class="flex flex-col">
+                            <Label :for="'wax_seal_type_' + index">
+                                {{ props.shipment.data.wax_seal_type?.name }}
+                            </Label>
+                            <img class="h-64 w-64 object-cover rounded-md bg-gray-100"
+                                :src="props.shipment.data.wax_seal_type?.images?.[0]?.image_path || '/placeholder.png'"
+                                alt="Wax Seal Type" />
+                        </div>
+
+                        <div class="flex flex-col">
+                            <Label :for="'fragrance_type_' + index">
+                                {{ props.shipment.data.fragrance_type?.name }}
+                            </Label>
+                            <img class="h-64 w-64 object-cover rounded-md bg-gray-100"
+                                :src="props.shipment.data.fragrance_type?.images?.[0]?.image_path || '/placeholder.png'"
+                                alt="Fragrance Type" />
+                        </div>
+                    </div>
+
+                    <div v-for="(recipient, index) in form.recipients" :key="recipient.recipient_id"
+                        class="p-4 border rounded-md">
+                        <div class="flex items-center justify-between">
+                            <div class="flex flex-col gap-2">
+                                <Label :for="'delivery_status_' + index">
+                                    Name: {{ recipient.recipient_name }}
+                                </Label>
+                                <Label :for="'delivery_status_' + index">
+                                    Email: {{ recipient.recipient_email }}
+                                </Label>
+                                <Label :for="'delivery_status_' + index">
+                                    Address Line 1: {{ recipient.recipient_address1 }}
+                                </Label>
+                                <Label :for="'delivery_status_' + index">
+                                    Address Line 2: {{ recipient.recipient_address2 }}
+                                </Label>
+                                <Label :for="'delivery_status_' + index">
+                                    Country: {{ recipient.country }}
+                                </Label>
+                                <Label :for="'delivery_status_' + index">
+                                    State: {{ recipient.state }}
+                                </Label>
+                                <Label :for="'delivery_status_' + index">
+                                    Postal Code: {{ recipient.postal_code }}
+                                </Label>
+                            </div>
+                            <ToggleInput :id="'delivery_status_' + index" v-model="recipient.delivery_status"
+                                label="Delivered" />
+                        </div>
+                        <div v-if="form.errors[`recipients.${index}.delivery_status`]"
+                            class="text-red-500 text-sm mt-1">
                             {{ form.errors[`recipients.${index}.delivery_status`] }}
                         </div>
                     </div>

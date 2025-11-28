@@ -4,13 +4,17 @@ namespace Modules\Delivery\Action\SendLetter;
 
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Modules\Delivery\Contract\DeliveryTierServiceInterface;
 use Modules\Delivery\Contract\LetterDeliveryServiceInterface;
 use Modules\Delivery\Contract\RecipientServiceInterface;
 use Modules\Delivery\DTO\LetterDeliveryDto;
 use Modules\Delivery\DTO\RecipientDto;
+use Modules\Delivery\Http\Cache\LetterDeliveryCache;
+use Modules\Delivery\Http\Cache\RecipientCache;
 use Modules\Letter\Contract\LetterServiceInterface;
 use Modules\Letter\DTO\LetterDto;
+use Modules\Letter\Http\Cache\LetterCache;
 use Modules\LetterComponent\Contract\EnvelopeTypeServiceInterface;
 use Modules\LetterComponent\Contract\FragranceTypeServiceInterface;
 use Modules\LetterComponent\Contract\PaperTypeServiceInterface;
@@ -32,7 +36,6 @@ class SendPhysicalLetterAction
     public function handle(Request $request)
     {
         try {
-
             if ($request->letter_id) {
                 $letterDto = LetterDto::fromRequest($request, $request->letter_id);
                 $letter = $this->letterService->update($letterDto);
@@ -106,6 +109,13 @@ class SendPhysicalLetterAction
 
                 $letterDelivery = $this->letterDeliveryService->create($letterDeliveryDto);
             }
+
+            Cache::tags([LetterCache::GET_ALL])->flush();
+            Cache::tags([LetterCache::GET])->flush();
+            Cache::tags([LetterDeliveryCache::GET_ALL])->flush();
+            Cache::tags([LetterDeliveryCache::GET])->flush();
+            Cache::tags([RecipientCache::GET_ALL])->flush();
+            Cache::tags([RecipientCache::GET])->flush();
 
             return [];
         } catch (Exception $e) {

@@ -3,10 +3,15 @@
 namespace Modules\Delivery\Http\Controller\Backend;
 
 use App\Enums\FlagType;
+use App\Enums\SendType;
 use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
+use App\Models\EnvelopeType;
+use App\Models\FragranceType;
 use App\Models\Letter;
+use App\Models\PaperType;
 use App\Models\Recipient;
+use App\Models\WaxSealType;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Modules\Delivery\Action\Shipment\SearchShipmentAction;
@@ -32,7 +37,21 @@ class ShipmentController extends Controller
 
     public const createPath = self::parentPath . '/Create';
 
-    protected $backendRelation = [Letter::recipients, Letter::recipients . '.' . Recipient::letterDeliveries, Letter::user];
+    protected $backendRelation = [
+        Letter::recipients,
+        Letter::recipients . '.' . Recipient::letterDeliveries,
+        Letter::user,
+        Letter::recipients . '.' . Recipient::country,
+        Letter::recipients . '.' . Recipient::state,
+        Letter::fragranceType,
+        Letter::envelopeType,
+        Letter::paperType,
+        Letter::waxSealType,
+        Letter::fragranceType . '.' . FragranceType::images,
+        Letter::envelopeType . '.' . EnvelopeType::images,
+        Letter::paperType . '.' . PaperType::images,
+        Letter::waxSealType . '.' . WaxSealType::images,
+    ];
 
     /**
      * Display a listing of the resource.
@@ -40,6 +59,10 @@ class ShipmentController extends Controller
     public function index(Request $request)
     {
         try {
+            $request->merge([
+                'send_type' => SendType::PHYSICAL->value
+            ]);
+
             $shipments = $this->searchShipmentAction->handle($request, $this->backendRelation);
 
             return Inertia::render(self::indexPath, [
@@ -81,6 +104,7 @@ class ShipmentController extends Controller
     {
         try {
             $letter = $this->letterService->get($id, $this->backendRelation);
+
             return Inertia::render(self::editPath, ['shipment' => new ShipmentBackendResource($letter)]);
         } catch (Throwable $e) {
             dd($e->getMessage());
@@ -94,7 +118,8 @@ class ShipmentController extends Controller
     {
         try {
             $this->updateShipmentAction->handle($request, $id);
-            return Helper::redirectView('shipments.index', 'Shipment updated successfully!', FlagType::SUCCESS);
+
+            return redirectView('shipments.index', 'Shipment updated successfully!', FlagType::SUCCESS);
         } catch (Throwable $e) {
             dd($e->getMessage());
         }

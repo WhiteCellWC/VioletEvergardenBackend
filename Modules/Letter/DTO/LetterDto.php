@@ -60,7 +60,7 @@ class LetterDto
             $request->fragrance_type_id,
             $request->envelope_type_id,
             $request->wax_seal_type_id,
-            $request->is_draft ?? true,
+            $request->is_draft ? true : false,
             $request->is_sent ?? false,
             $request->is_sealed,
             $request->is_printed ?? false,

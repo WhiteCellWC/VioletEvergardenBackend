@@ -36,6 +36,7 @@ class SendLetterApiRequest extends FormRequest
             'is_draft' => 'required|boolean',
             'is_sealed' => 'required|boolean',
 
+            'body' => 'required',
             'paper_type_id' => 'required|exists:' . PaperType::table . ',' . PaperType::id,
             'envelope_type_id' => 'required|exists:' . EnvelopeType::table . ',' . EnvelopeType::id,
             'wax_seal_type_id' => ['nullable', 'required_if:send_type,' . SendType::PHYSICAL->value, 'exists:' . WaxSealType::table . ',' . WaxSealType::id],

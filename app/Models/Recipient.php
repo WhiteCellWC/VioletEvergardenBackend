@@ -40,6 +40,10 @@ class Recipient extends Model
 
     // Relation Start
     public const letterDeliveries = 'letterDeliveries';
+
+    public const country = 'country';
+
+    public const state = 'state';
     // Relation End
 
     protected $fillable = [

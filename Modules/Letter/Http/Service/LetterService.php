@@ -4,6 +4,7 @@ namespace Modules\Letter\Http\Service;
 
 use App\Http\Service\BaseService;
 use App\Models\Letter;
+use App\Models\Recipient;
 use Exception;
 use Illuminate\Support\Facades\Cache;
 use Modules\Letter\Contract\LetterServiceInterface;
@@ -58,6 +59,13 @@ class LetterService extends BaseService implements LetterServiceInterface
                     )->when(
                         $queryOptions,
                         fn($query, $queryOptions) => $query->queryOptions($queryOptions)
+                    )->when(
+                        !empty($condsIn['recipient_email']),
+                        function ($query) use ($condsIn) {
+                            $query->whereHas(Letter::recipients, function ($q) use ($condsIn) {
+                                $q->where(Recipient::email, $condsIn['recipient_email']);
+                            });
+                        }
                     ),
                     $queryOptions
                 )

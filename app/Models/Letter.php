@@ -46,6 +46,14 @@ class Letter extends BaseModel
     public const recipients = 'recipients';
 
     public const letterTypes = 'letterTypes';
+
+    public const waxSealType = 'waxSealType';
+
+    public const paperType = 'paperType';
+
+    public const fragranceType = 'fragranceType';
+
+    public const envelopeType = 'envelopeType';
     // Relation End
 
     protected $fillable = [
