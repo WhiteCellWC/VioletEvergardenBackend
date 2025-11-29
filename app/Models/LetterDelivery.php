@@ -32,6 +32,8 @@ class LetterDelivery extends Model
 
     const updatedBy = 'updated_by';
 
+    const createdAt = 'created_at';
+
     protected $fillable = [
         'recipient_id',
         'delivery_option_id',
@@ -60,7 +62,7 @@ class LetterDelivery extends Model
 
     public function recipient()
     {
-        $this->belongsTo(Recipient::class, LetterDelivery::recipientId);
+        return $this->belongsTo(Recipient::class, LetterDelivery::recipientId);
     }
     #endregion
 }

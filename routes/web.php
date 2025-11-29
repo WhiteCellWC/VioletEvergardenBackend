@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Modules\Delivery\Http\Controller\Backend\DeliveryOptionController;
@@ -15,9 +16,7 @@ use Modules\Location\Http\Controller\Backend\CountryController;
 use Modules\Location\Http\Controller\Backend\StateController;
 use Modules\User\Http\Controller\Backend\UserController;
 
-Route::get('/', function () {
-    return Inertia::render('Dashboard/Dashboard');
-})->name('dashboard');
+Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
 Route::resource('states', StateController::class);
 Route::resource('countries', CountryController::class);
